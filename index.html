@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wohnung XR</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #1d2026; font-family: system-ui, sans-serif; color: #eee; }
+    #ui { position: fixed; top: 12px; left: 12px; right: 12px; max-width: 360px; background: rgba(20, 20, 24, .88);
+          padding: 14px 16px; border-radius: 10px; font-size: 14px; line-height: 1.45; }
+    #ui h1 { font-size: 17px; margin: 0 0 4px; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
+    button, label.btn { background: #3b6cf6; color: #fff; border: 0; border-radius: 6px; padding: 8px 12px; font: inherit; cursor: pointer; }
+    button:disabled { background: #555; color: #aaa; cursor: not-allowed; }
+    label.btn { background: #444; }
+    #status, #xrinfo { font-size: 12px; color: #bbb; white-space: pre-wrap; }
+    #xrinfo { color: #e9b96e; margin-top: 4px; }
+    details { margin-top: 8px; }
+    summary { cursor: pointer; color: #ccc; }
+    ul { margin: 6px 0; padding-left: 18px; }
+    kbd { background: #333; border-radius: 3px; padding: 0 4px; font-size: 12px; }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="ui">
+    <h1>Wohnung XR</h1>
+    <div class="row">
+      <button id="btn-vr" disabled>VR starten</button>
+      <button id="btn-ar" disabled>Passthrough (AR)</button>
+      <label class="btn">GLB laden<input id="file" type="file" accept=".glb" hidden></label>
+    </div>
+    <div id="status">Lade …</div>
+    <div id="xrinfo"></div>
+    <details>
+      <summary>Steuerung</summary>
+      <b>VR-Brille</b>
+      <ul>
+        <li>Einfach physisch herumlaufen (1:1-Massstab)</li>
+        <li><b>Trigger</b> halten = zielen, loslassen = teleportieren</li>
+        <li><b>Linker Stick</b> = gleiten, <b>rechter Stick</b> = drehen</li>
+        <li><b>Grip-Taste</b> = „Ich stehe jetzt am Startpunkt" → Modell wird an deiner echten Position ausgerichtet</li>
+      </ul>
+      <b>Desktop</b>
+      <ul>
+        <li>Ins Bild klicken, Maus = umsehen, <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> = laufen, <kbd>Shift</kbd> = schneller</li>
+        <li><kbd>P</kbd> = aktuelle Position als Startpunkt anzeigen (für <code>CONFIG.spawn</code>)</li>
+        <li>GLB-Datei auch per Drag &amp; Drop ins Fenster</li>
+      </ul>
+    </details>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
