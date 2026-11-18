@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { buildApartment, SPAWN as HOME_SPAWN } from './apartment.js';
 
 // ---- Konfiguration ----------------------------------------------------------
@@ -35,8 +36,15 @@ document.body.appendChild(renderer.domElement);
 const scene = new THREE.Scene();
 const BG = new THREE.Color(0x1d2026);
 scene.background = BG;
-scene.add(new THREE.HemisphereLight(0xffffff, 0xb8b0a4, 2.0));
-const sun = new THREE.DirectionalLight(0xffffff, 1.2);
+// Realistischere Beleuchtung ohne Laufzeitkosten: Tonemapping + einmalig vorberechnete Umgebung (Reflexionen)
+renderer.toneMapping = THREE.NeutralToneMapping;
+renderer.toneMappingExposure = 1.05;
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.55;
+pmrem.dispose();
+scene.add(new THREE.HemisphereLight(0xfff4e6, 0xb8b0a4, 1.2));
+const sun = new THREE.DirectionalLight(0xffffff, 0.6);
 sun.position.set(3, 6, 2);
 scene.add(sun);
 
@@ -49,7 +57,7 @@ rig.add(camera);
 const apartment = new THREE.Group();
 scene.add(apartment);
 let spawn = { ...HOME_SPAWN };
-window.wohnung = { scene, rig, camera };   // zum Debuggen in der Browser-Konsole
+window.wohnung = { scene, rig, camera, renderer };   // zum Debuggen in der Browser-Konsole
 let alignRequested = false;
 let pendingTeleport = null;
 
