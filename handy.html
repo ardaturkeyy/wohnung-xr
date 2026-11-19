@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1d2026">
+  <title>Wohnung – Handy</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #1d2026; font-family: system-ui, sans-serif; color: #eee;
+                 touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; overscroll-behavior: none; }
+    canvas { display: block; touch-action: none; }
+    #bar { position: fixed; top: calc(env(safe-area-inset-top) + 10px); left: 10px; right: 10px; display: flex; gap: 8px;
+           align-items: flex-start; pointer-events: none; }
+    #status { flex: 1; font-size: 12px; line-height: 1.35; background: rgba(20, 20, 24, .7); padding: 6px 10px; border-radius: 8px;
+              white-space: pre-wrap; max-height: 4.2em; overflow: hidden; transition: opacity .6s; }
+    #status.fade { opacity: 0; }
+    .btn { pointer-events: auto; background: rgba(20, 20, 24, .7); color: #fff; border: 0; border-radius: 8px; width: 40px; height: 40px;
+           font-size: 18px; display: grid; place-items: center; cursor: pointer; text-decoration: none; }
+    .btn.on { background: #3b6cf6; }
+    #menu { position: fixed; top: calc(env(safe-area-inset-top) + 58px); right: 10px; background: rgba(20, 20, 24, .92); border-radius: 10px;
+            padding: 8px; display: none; flex-direction: column; gap: 4px; font-size: 14px; min-width: 200px; }
+    #menu.open { display: flex; }
+    #menu button, #menu label, #menu a { background: none; border: 0; color: #eee; font: inherit; text-align: left; padding: 9px 10px;
+            border-radius: 6px; cursor: pointer; text-decoration: none; display: flex; justify-content: space-between; gap: 12px; }
+    #menu button:active, #menu label:active { background: #333; }
+    #menu .val { color: #8fb0ff; }
+    #help { position: fixed; bottom: calc(env(safe-area-inset-bottom) + 14px); left: 0; right: 0; text-align: center; font-size: 12px;
+            color: rgba(255,255,255,.65); pointer-events: none; transition: opacity .6s; text-shadow: 0 1px 2px #000; }
+    #help.fade { opacity: 0; }
+    /* Joystick */
+    #stick { position: fixed; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; pointer-events: none;
+             background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.35); box-sizing: border-box; opacity: .55;
+             left: 90px; bottom: calc(env(safe-area-inset-bottom) + 30px); top: auto; transition: opacity .2s; }
+    #stick.active { opacity: 1; }
+    #knob { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%;
+            background: rgba(255,255,255,.75); box-shadow: 0 2px 8px rgba(0,0,0,.4); }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="bar">
+    <div id="status">Lade …</div>
+    <button class="btn" id="btn-full" title="Vollbild">⛶</button>
+    <button class="btn" id="btn-menu" title="Menü">☰</button>
+  </div>
+  <div id="menu">
+    <button id="opt-collide">Wände blockieren <span class="val">an</span></button>
+    <button id="opt-gyro">Umsehen mit Neigen <span class="val">aus</span></button>
+    <button id="opt-speed">Tempo <span class="val">normal</span></button>
+    <button id="opt-spawn">Zurück zum Start</button>
+    <label>GLB-Scan laden<input id="file" type="file" accept=".glb" hidden></label>
+    <a href="index.html">VR-/Desktop-Version →</a>
+  </div>
+  <div id="stick"><div id="knob"></div></div>
+  <div id="help">Links: Joystick zum Laufen · Rechts: wischen zum Umsehen</div>
+  <script type="module" src="handy.js"></script>
+</body>
+</html>

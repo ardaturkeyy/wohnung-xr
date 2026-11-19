@@ -5,6 +5,7 @@ Eine WebXR-App (three.js, ohne Build-Schritt), mit der du in einer VR-Brille dur
 - **VR-Modus:** physisch herumlaufen, Teleport mit dem Trigger, Gleiten mit dem linken Stick, Drehen mit dem rechten Stick
 - **Passthrough-Modus (AR):** der Scan liegt halbtransparent über der echten Wohnung. So prüfst du die Ausrichtung.
 - **Desktop-Modus:** WASD und Maus zum Testen am PC
+- **Handy-Version ([handy.html](handy.html)):** mit dem Touch-Joystick durch die Wohnung laufen, ganz ohne Brille
 - Solange kein Scan da ist, zeigt die App Wohnzimmer und Küche, nachgebaut aus Fotos ([apartment.js](apartment.js)). Die Masse sind geschätzt. Für das Laufen im Massstab 1:1 trägst du oben im Objekt `M` deine gemessenen Werte ein.
 
 ## 1. Wohnung scannen
@@ -65,12 +66,25 @@ python -m http.server 8000
 ```
 Dann `http://localhost:8000` öffnen. Zum Testen von VR am PC eignet sich die Browser-Erweiterung *Immersive Web Emulator* (Meta).
 
+## Handy-Version
+
+Öffne `https://<DEIN-NAME>.github.io/wohnung-xr/handy.html` auf dem Handy (oder tippe auf der Startseite auf **📱 Handy-Version**).
+
+- **Linke Bildschirmhälfte:** Daumen auflegen und ziehen. Der Joystick erscheint dort, wo du hintippst. Je weiter du ziehst, desto schneller läufst du.
+- **Rechte Bildschirmhälfte:** wischen zum Umsehen (links/rechts und hoch/runter)
+- **Menü ☰:**
+  - *Wände blockieren*: Kollision an/aus. Ausgeschaltet läufst du durch Wände und Möbel.
+  - *Umsehen mit Neigen*: Blickrichtung folgt dem Lagesensor des Handys. Das iPhone fragt dabei nach der Erlaubnis.
+  - *Tempo* (langsam/normal/schnell), *Zurück zum Start*, *GLB-Scan laden*
+- **⛶** = Vollbild (nicht auf dem iPhone. Dort über *Teilen → Zum Home-Bildschirm* als App öffnen.)
+- Am PC zum Testen: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> laufen, <kbd>Q</kbd>/<kbd>E</kbd> drehen
+
 ## Anpassen
 
 Alle Einstellungen stehen oben in `main.js` im Objekt `CONFIG`: Modellpfad, Startpunkt, Gehgeschwindigkeit und Drehwinkel.
 
 ## Bekannte Grenzen
 
-- Am Desktop und beim Gleiten gibt es keine Kollision mit Wänden.
+- Am Desktop und beim Gleiten in VR gibt es keine Kollision mit Wänden (in der Handy-Version schon).
 - Die Kalibrierung gilt nur pro VR-Session. Nach jedem Start einmal am Startpunkt stehen oder die Grip-Taste drücken.
 - Sehr grosse Scans (über 1 Mio. Dreiecke) können auf der Quest ruckeln. Dann das Modell verkleinern.
